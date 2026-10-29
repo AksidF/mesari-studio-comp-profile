@@ -1,6 +1,6 @@
 import Image from "next/image";
 import MobileMenu from "./MobileMenu";
-import { nav, waLink } from "@/content/site";
+import { nav, site, waLink } from "@/content/site";
 
 export default function Header() {
   return (
@@ -15,7 +15,7 @@ export default function Header() {
         </nav>
         <div className="header__actions">
           <a className="btn btn--small" href={waLink()} target="_blank" rel="noopener noreferrer">Booking</a>
-          <MobileMenu />
+          <MobileMenu links={nav} phone={site.phone} email={site.email} whatsapp={waLink()} />
         </div>
       </div>
     </header>

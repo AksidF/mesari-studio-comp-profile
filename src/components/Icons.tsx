@@ -13,6 +13,8 @@ const shapes: Record<string, React.ReactNode> = {
   gift: <><rect x="3" y="8" width="18" height="4" /><path d="M12 8v13M5 12v9h14v-9M8 8a2.5 2.5 0 1 1 4-2.5M16 8a2.5 2.5 0 1 0-4-2.5" /></>,
   phone: <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />,
   mail: <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></>,
+  "arrow-left": <path d="M15 5l-7 7 7 7" />,
+  "arrow-right": <path d="M9 5l7 7-7 7" />,
   pin: <><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z" /><circle cx="12" cy="10" r="2.5" /></>,
 };
 

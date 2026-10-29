@@ -1,3 +1,5 @@
+import Loader from "@/components/Loader";
+import ScrollEffects from "@/components/ScrollEffects";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Commitments, Marquee, Cta, Faq, Hero, Packages, Portfolio, Steps } from "@/components/Sections";
@@ -28,6 +30,8 @@ const jsonLd = [
 export default function Home() {
   return (
     <>
+      <Loader />
+      <ScrollEffects />
       <div className="flash" aria-hidden />
       <div className="progress" aria-hidden />
       <Header />

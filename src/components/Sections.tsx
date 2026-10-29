@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Aperture from "./Aperture";
+import Carousel from "./Carousel";
 import Icon from "./Icons";
 import { commitments, events, faqs, hero, included, packages, portfolio, steps, waLink } from "@/content/site";
 
@@ -45,10 +46,10 @@ export function Commitments() {
   return (
     <section id="keunggulan" className="section tx-lattice">
       <div className="container">
-        <h2>Lebih dari sekadar foto</h2>
+        <h2 data-aos="fade-up">Lebih dari sekadar foto</h2>
         <div className="grid grid--3">
-          {commitments.map((c) => (
-            <article key={c.title}><span className="icon-badge"><Icon name={c.icon} /></span><h3>{c.title}</h3><p>{c.text}</p></article>
+          {commitments.map((c, i) => (
+            <article key={c.title} data-aos="fade-up" data-aos-delay={(i % 3) * 120}><span className="icon-badge"><Icon name={c.icon} /></span><h3>{c.title}</h3><p>{c.text}</p></article>
           ))}
         </div>
       </div>
@@ -60,10 +61,10 @@ export function Steps() {
   return (
     <section className="section section--deep tx-film">
       <div className="container">
-        <h2>Dari chat sampai pesta</h2>
+        <h2 data-aos="fade-up">Dari chat sampai pesta</h2>
         <ol className="steps">
-          {steps.map((s) => (
-            <li key={s.title}><span className="icon-badge"><Icon name={s.icon} /></span><h3>{s.title}</h3><p>{s.text}</p></li>
+          {steps.map((s, i) => (
+            <li key={s.title} data-aos="zoom-in" data-aos-delay={i * 120}><span className="icon-badge"><Icon name={s.icon} /></span><h3>{s.title}</h3><p>{s.text}</p></li>
           ))}
         </ol>
       </div>
@@ -74,19 +75,17 @@ export function Steps() {
 export function Portfolio() {
   return (
     <section id="portofolio" className="section tx-dots">
-      <div className="container">
-        <h2>Acara yang pernah kami hadiri</h2>
-        <div className="grid grid--4">
-          {portfolio.map((p) => (
-            <figure key={p.title} className="work">
-              {p.image
-                ? <Image src={p.image} alt={`Photobooth ${p.type} ${p.title}`} width={600} height={800} sizes="(max-width: 700px) 50vw, 25vw" />
-                : <div className="work__placeholder" aria-hidden />}
-              <figcaption><strong>{p.title}</strong><span>{p.type}</span></figcaption>
-            </figure>
-          ))}
-        </div>
-      </div>
+      <div className="container"><h2 data-aos="fade-up">Acara yang pernah kami hadiri</h2></div>
+      <Carousel label="Portofolio acara">
+        {portfolio.map((p) => (
+          <figure key={p.title} className="work">
+            {p.image
+              ? <Image src={p.image} alt={`Photobooth ${p.type} ${p.title}`} width={600} height={800} sizes="(max-width: 700px) 70vw, 340px" />
+              : <div className="work__placeholder" aria-hidden />}
+            <figcaption><strong>{p.title}</strong><span>{p.type}</span></figcaption>
+          </figure>
+        ))}
+      </Carousel>
     </section>
   );
 }
@@ -95,10 +94,10 @@ export function Packages() {
   return (
     <section id="paket" className="section section--deep tx-lines">
       <div className="container">
-        <h2>Paket</h2>
+        <h2 data-aos="fade-up">Paket</h2>
         <div className="grid grid--3">
-          {packages.map((p) => (
-            <article key={p.name} className={`card${p.featured ? " card--featured" : ""}`}>
+          {packages.map((p, i) => (
+            <article key={p.name} data-aos="zoom-in-up" data-aos-delay={i * 150} className={`card${p.featured ? " card--featured" : ""}`}>
               <h3>{p.name}</h3>
               <p className="muted">{p.note}</p>
               <p className="price">{p.price}</p>
@@ -107,8 +106,8 @@ export function Packages() {
             </article>
           ))}
         </div>
-        <h3 className="included__title">Semua paket termasuk</h3>
-        <ul className="included">{included.map((i) => <li key={i}>{i}</li>)}</ul>
+        <h3 className="included__title" data-aos="fade-up">Semua paket termasuk</h3>
+        <ul className="included" data-aos="fade-up">{included.map((i) => <li key={i}>{i}</li>)}</ul>
       </div>
     </section>
   );
@@ -118,9 +117,9 @@ export function Faq() {
   return (
     <section id="faq" className="section tx-dots">
       <div className="container container--narrow">
-        <h2>Pertanyaan umum</h2>
-        {faqs.map((f) => (
-          <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>
+        <h2 data-aos="fade-up">Pertanyaan umum</h2>
+        {faqs.map((f, i) => (
+          <details key={f.q} data-aos="fade-up" data-aos-delay={i * 80}><summary>{f.q}</summary><p>{f.a}</p></details>
         ))}
       </div>
     </section>
@@ -131,9 +130,9 @@ export function Cta() {
   return (
     <section className="section cta tx-rings">
       <div className="container">
-        <h2>Amankan tanggal acara Anda</h2>
-        <p className="lead">Tanggal favorit cepat penuh. Kirim detail acara, kami balas secepatnya.</p>
-        <a className="btn" href={waLink()} target="_blank" rel="noopener noreferrer">Booking via WhatsApp</a>
+        <h2 data-aos="fade-up">Amankan tanggal acara Anda</h2>
+        <p className="lead" data-aos="fade-up" data-aos-delay="150">Tanggal favorit cepat penuh. Kirim detail acara, kami balas secepatnya.</p>
+        <a className="btn" data-aos="zoom-in" data-aos-delay="300" href={waLink()} target="_blank" rel="noopener noreferrer">Booking via WhatsApp</a>
       </div>
     </section>
   );

@@ -33,7 +33,7 @@ export const hero = {
   text: "Cetak instan, galeri digital, dan GIF untuk pernikahan, ulang tahun, dan acara perusahaan Anda.",
   primaryCta: "Cek ketersediaan tanggal",
   secondaryCta: "Lihat paket",
-  strip: ["Tawa pertama", "Pose konyol", "Pelukan", "Foto terakhir"],
+  strip: ["Foto 1", "Foto 2", "Foto 3", "Foto 4"],
 };
 
 export const commitments = [
@@ -55,17 +55,17 @@ export const steps = [
 
 // Photos: put files in /public/gallery and set image: "/gallery/nama-file.jpg". Leave empty to show a placeholder.
 export const portfolio = [
-  { title: "Putu & Ayu", type: "Wedding reception", image: "" },
-  { title: "Keluarga Wirawan", type: "Mepandes", image: "" },
-  { title: "Ulang tahun Kadek", type: "Birthday", image: "" },
-  { title: "Annual Gathering", type: "Corporate", image: "" },
+  { title: "Uzae & Ayrus", type: "Wedding reception", image: "" },
+  { title: "Keluarga Langgeng", type: "Mepandes", image: "" },
+  { title: "Ulang tahun Dw Yudha", type: "Birthday", image: "" },
+  { title: "Annual Gathering Paspud", type: "Corporate", image: "" },
 ];
 
 // Prices are placeholders — replace with your real pricing.
 export const packages = [
-  { name: "File Only", note: "Galeri digital & softcopy", price: "Rp 0", features: ["Foto & GIF digital", "QR code untuk tamu"] },
-  { name: "Limited Print", note: "Cetak terbatas", price: "Rp 0", features: ["Semua fitur File Only", "Jumlah cetak sesuai paket"], featured: true },
-  { name: "Unlimited Print", note: "Cetak sepuasnya", price: "Rp 0", features: ["Semua fitur File Only", "Cetak tanpa batas", "Flashdisk semua file"] },
+  { name: "File Only", note: "Galeri digital & softcopy", price: "Rp 696.969 / hr", features: ["Foto & GIF digital", "QR code untuk tamu"] },
+  { name: "Limited Print", note: "Cetak terbatas", price: "Rp 676.6767 / hr", features: ["Semua fitur File Only", "Jumlah cetak sesuai paket"], featured: true },
+  { name: "Unlimited Print", note: "Cetak sepuasnya", price: "Rp 420.420 / hr", features: ["Semua fitur File Only", "Cetak tanpa batas", "Flashdisk semua file"] },
 ];
 
 export const included = [
