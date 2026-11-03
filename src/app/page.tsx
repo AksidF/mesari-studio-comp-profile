@@ -2,9 +2,10 @@ import Loader from "@/components/Loader";
 import ScrollEffects from "@/components/ScrollEffects";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Gallery from "@/components/Gallery";
 import { Commitments, Marquee, Cta, Faq, Hero, Packages, Portfolio, Steps } from "@/components/Sections";
-import Icon from "@/components/Icons";
-import { faqs, site, waLink } from "@/content/site";
+import Fab from "@/components/Fab";
+import { faqs, site } from "@/content/site";
 
 // Structured data helps Google show rich results (business info + FAQ).
 const jsonLd = [
@@ -27,6 +28,9 @@ const jsonLd = [
   },
 ];
 
+// Re-fetches the Google Drive gallery at most every 5 minutes. Lower it (e.g. 600) for faster updates.
+export const revalidate = 300;
+
 export default function Home() {
   return (
     <>
@@ -41,12 +45,13 @@ export default function Home() {
         <Commitments />
         <Steps />
         <Portfolio />
+        <Gallery />
         <Packages />
         <Faq />
         <Cta />
       </main>
       <Footer />
-      <a className="fab" href={waLink()} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp"><Icon name="chat" /></a>
+      <Fab />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </>
   );

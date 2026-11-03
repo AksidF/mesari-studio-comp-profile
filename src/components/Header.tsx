@@ -1,21 +1,24 @@
 import Image from "next/image";
 import MobileMenu from "./MobileMenu";
 import { nav, site, waLink } from "@/content/site";
+import { galleryEnabled } from "@/lib/drive";
+
 
 export default function Header() {
+  const links = nav.filter((n) => n.href !== "/#galeri" || galleryEnabled);
   return (
     <header className="header">
       <div className="container header__inner">
-        <a href="#top" className="brand" aria-label="Mesari Studio Bali, ke atas">
+        <a href="/#top" className="brand" aria-label="Mesari Studio Bali, ke atas">
           <Image src="/logo-icon.png" alt="" width={44} height={40} priority />
           <span>Mesari Studio Bali</span>
         </a>
         <nav aria-label="Menu utama" className="nav">
-          {nav.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}
+          {links.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}
         </nav>
         <div className="header__actions">
           <a className="btn btn--small" href={waLink()} target="_blank" rel="noopener noreferrer">Booking</a>
-          <MobileMenu links={nav} phone={site.phone} email={site.email} whatsapp={waLink()} />
+          <MobileMenu links={links} phone={site.phone} email={site.email} whatsapp={waLink()} />
         </div>
       </div>
     </header>
