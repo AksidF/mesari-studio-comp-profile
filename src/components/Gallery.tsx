@@ -9,6 +9,7 @@ export default async function Gallery() {
   return (
     <section id="galeri" className="section tx-lattice">
       <div className="container">
+        <p className="eyebrow" data-aos="fade-up">Galeri</p>
         <h2 data-aos="fade-up">Galeri foto pelanggan</h2>
         <p className="lead gallery__lead" data-aos="fade-up">Pernah berfoto bersama kami? Temukan dan unduh foto acara Anda di sini.</p>
         <div className="galleries">

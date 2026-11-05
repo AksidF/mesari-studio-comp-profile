@@ -34,6 +34,8 @@ export const hero = {
   text: "Cetak instan, galeri digital, dan GIF untuk pernikahan, ulang tahun, dan acara perusahaan Anda.",
   primaryCta: "Cek ketersediaan tanggal",
   secondaryCta: "Lihat paket",
+  // Optional: put photos in /public/gallery and list them here (same order as the captions below), e.g. "/gallery/strip-1.jpg"
+  stripImages: ["", "", "", ""],
   strip: ["Tawa pertama", "Pose konyol", "Pelukan", "Foto terakhir"],
 };
 

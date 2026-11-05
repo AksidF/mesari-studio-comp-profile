@@ -26,7 +26,14 @@ export default function ScrollEffects() {
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     window.addEventListener("scroll", onScroll, { passive: true });
     update();
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
+    // Looping animations only run while their section is on screen (saves battery and keeps scrolling smooth)
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.target.classList.toggle("is-paused", !e.isIntersecting)),
+      { rootMargin: "120px" },
+    );
+    document.querySelectorAll(".hero, .marquee, .section").forEach((el) => io.observe(el));
+
+    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); io.disconnect(); };
   }, []);
 
   return null;

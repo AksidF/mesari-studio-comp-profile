@@ -2,6 +2,7 @@ import Image from "next/image";
 import Aperture from "./Aperture";
 import Carousel from "./Carousel";
 import Icon from "./Icons";
+import Stamp from "./Stamp";
 import { commitments, events, faqs, hero, included, packages, portfolio, steps, waLink } from "@/content/site";
 
 export function Hero() {
@@ -10,7 +11,7 @@ export function Hero() {
       <Aperture />
       <div className="container hero__grid">
         <div>
-          <p className="muted">{hero.eyebrow}</p>
+          <p className="chip"><Icon name="sparkle" />{hero.eyebrow}</p>
           <h1>{hero.title}</h1>
           <p className="lead">{hero.text}</p>
           <div className="row">
@@ -19,13 +20,18 @@ export function Hero() {
           </div>
         </div>
         {/* The photo strip: the signature visual of the site */}
-        <ol className="strip" aria-label="Contoh strip foto">
+        <div className="strips">
+          <div className="strip strip--back" aria-hidden><i /><i /><i /></div>
+          <Stamp />
+          <ol className="strip" aria-label="Contoh strip foto">
           {hero.strip.map((c, i) => (
             <li key={c} className="strip__frame" style={{ "--i": i } as React.CSSProperties}>
+              {hero.stripImages[i] && <Image src={hero.stripImages[i]} alt="" fill sizes="240px" />}
               <span>{c}</span>
             </li>
           ))}
         </ol>
+        </div>
       </div>
     </section>
   );
@@ -46,6 +52,7 @@ export function Commitments() {
   return (
     <section id="keunggulan" className="section tx-lattice">
       <div className="container">
+        <p className="eyebrow" data-aos="fade-up">Keunggulan</p>
         <h2 data-aos="fade-up">Lebih dari sekadar foto</h2>
         <div className="grid grid--3">
           {commitments.map((c, i) => (
@@ -61,6 +68,7 @@ export function Steps() {
   return (
     <section className="section section--deep tx-film">
       <div className="container">
+        <p className="eyebrow" data-aos="fade-up">Cara booking</p>
         <h2 data-aos="fade-up">Dari chat sampai pesta</h2>
         <ol className="steps">
           {steps.map((s, i) => (
@@ -75,7 +83,8 @@ export function Steps() {
 export function Portfolio() {
   return (
     <section id="portofolio" className="section tx-dots">
-      <div className="container"><h2 data-aos="fade-up">Acara yang pernah kami hadiri</h2></div>
+      <div className="container"><p className="eyebrow" data-aos="fade-up">Portofolio</p>
+        <h2 data-aos="fade-up">Acara yang pernah kami hadiri</h2></div>
       <Carousel label="Portofolio acara">
         {portfolio.map((p) => (
           <figure key={p.title} className="work">
@@ -94,10 +103,12 @@ export function Packages() {
   return (
     <section id="paket" className="section section--deep tx-lines">
       <div className="container">
+        <p className="eyebrow" data-aos="fade-up">Harga</p>
         <h2 data-aos="fade-up">Paket</h2>
         <div className="grid grid--3">
           {packages.map((p, i) => (
             <article key={p.name} data-aos="zoom-in-up" data-aos-delay={i * 150} className={`card${p.featured ? " card--featured" : ""}`}>
+              {p.featured && <span className="card__badge">Rekomendasi</span>}
               <h3>{p.name}</h3>
               <p className="muted">{p.note}</p>
               <p className="price">{p.price}</p>
@@ -117,6 +128,7 @@ export function Faq() {
   return (
     <section id="faq" className="section tx-dots">
       <div className="container container--narrow">
+        <p className="eyebrow" data-aos="fade-up">FAQ</p>
         <h2 data-aos="fade-up">Pertanyaan umum</h2>
         {faqs.map((f, i) => (
           <details key={f.q} data-aos="fade-up" data-aos-delay={i * 80}><summary>{f.q}</summary><p>{f.a}</p></details>

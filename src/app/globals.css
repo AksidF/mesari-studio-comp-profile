@@ -18,12 +18,6 @@
 html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 body {
   color: var(--ivory); font: 400 1rem/1.75 var(--font-body), system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden;
-  background:
-    radial-gradient(900px 600px at 90% -5%, rgba(235, 194, 131, .16), transparent 65%),
-    radial-gradient(800px 700px at -10% 45%, rgba(139, 104, 68, .22), transparent 65%),
-    radial-gradient(900px 600px at 80% 100%, rgba(19, 40, 79, .9), transparent 70%),
-    var(--navy);
-  background-attachment: fixed;
 }
 /* film grain: a tiny inline SVG noise, no network request */
 body::before {
@@ -37,7 +31,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 h1, h2, h3, .price { font-family: var(--font-display), Georgia, serif; line-height: 1.08; font-weight: 600; }
 h1, h2 { background: var(--gold-text); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .08em; }
-h1 { font-size: clamp(2.9rem, 7vw, 5.2rem); background-size: 200% 100%; animation: shine 9s ease-in-out infinite alternate; }
+h1 { font-size: clamp(2.9rem, 7vw, 5.2rem); background-size: 200% 100%; animation: shine 9s ease-in-out 2 alternate; }
 h2 { font-size: clamp(2rem, 4vw, 3.1rem); margin-bottom: 2.2rem; }
 h3 { font-size: 1.35rem; margin-bottom: .4rem; }
 p, li { color: var(--muted); }
@@ -416,3 +410,57 @@ details[open] summary::after { transform: rotate(45deg); }
 .gsearch__clear { position: absolute; right: .5rem; top: 50%; translate: 0 -50%; width: 30px; height: 30px; border: 0; border-radius: 50%; background: none; color: var(--gold-light); font-size: 1.4rem; line-height: 1; cursor: pointer; }
 .gsearch__clear:hover { background: rgba(201, 160, 102, .2); }
 .gallery-page:has([data-pending="true"]) .galleries { opacity: .45; transition: opacity .2s; }
+
+/* ===================== PERFORMANCE (same look, cheaper to draw) ===================== */
+/* The page background is now its own fixed layer instead of `background-attachment: fixed` (which repaints on every scroll) */
+html { background: var(--navy); scrollbar-color: var(--gold-dark) var(--navy-deep); scrollbar-width: thin; }
+body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; transform: translateZ(0);
+  background:
+    radial-gradient(900px 600px at 90% -5%, rgba(235, 194, 131, .16), transparent 65%),
+    radial-gradient(800px 700px at -10% 45%, rgba(139, 104, 68, .22), transparent 65%),
+    radial-gradient(900px 600px at 80% 100%, rgba(19, 40, 79, .9), transparent 70%); }
+/* Below-the-fold sections are not drawn until they get close to the screen */
+#keunggulan, #paket, #faq, #galeri, .cta, .footer { content-visibility: auto; contain-intrinsic-size: auto 700px; }
+/* Moving things get their own GPU layer */
+.aperture, .hero::before, .hero::after, .marquee__track, .strip, .stamp, .fab { will-change: transform; }
+/* Looping animations pause when their section is off-screen (toggled in ScrollEffects.tsx) */
+.is-paused, .is-paused *, .is-paused::before, .is-paused::after, .is-paused *::before, .is-paused *::after { animation-play-state: paused !important; }
+/* Loader only on the first visit of a browser session */
+html.seen { --hold: 0s; }
+html.seen .loader { display: none; }
+/* Featured package: same travelling gold border, but by rotating a layer (GPU) instead of repainting a gradient every frame */
+.card--featured { position: relative; isolation: isolate; overflow: hidden; background: none; animation: none; }
+.card--featured::before { content: ""; position: absolute; inset: -60%; z-index: -2; background: conic-gradient(#8b6844, #ebc283, #f6e0b4, #8b6844); animation: spin 7s linear infinite; }
+.card--featured::after { content: ""; position: absolute; inset: 1px; z-index: -1; border-radius: calc(var(--radius) - 1px); background: linear-gradient(160deg, #13284f, #0b1b3a); }
+.carousel__dots button { position: relative; }
+.carousel__dots button::after { content: ""; position: absolute; inset: -14px -5px; } /* bigger tap area */
+
+/* ===================== VISUAL POLISH ===================== */
+::selection { background: var(--gold-light); color: var(--navy-deep); }
+
+/* hero: pill label, second strip behind the first, rotating stamp */
+.chip { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem 1rem; margin-bottom: 1.4rem; border-radius: 99px; font-size: .8rem; font-weight: 600; letter-spacing: .08em; color: var(--gold-light); border: 1px solid rgba(201, 160, 102, .45); background: rgba(7, 18, 42, .5); }
+.chip .icon { width: 16px; height: 16px; }
+.strips { position: relative; display: grid; place-items: center; padding: 1rem 0; }
+.strips .strip:not(.strip--back) { position: relative; z-index: 1; }
+.strip--back { position: absolute; top: 4%; left: calc(50% - 168px); width: 200px; margin: 0; opacity: 0; filter: brightness(.75); animation: print-b 1.1s cubic-bezier(.2, .8, .2, 1) calc(var(--hold) + .3s) both, float-b 9s ease-in-out calc(var(--hold) + 1.6s) infinite; }
+.strip--back i { display: block; aspect-ratio: 4 / 3; background: linear-gradient(160deg, var(--navy-soft), var(--navy-deep)); border: 1px solid var(--gold); }
+.stamp { position: absolute; z-index: 2; right: max(0px, calc(50% - 205px)); bottom: 6%; width: 104px; color: var(--gold-light); animation: spin 22s linear infinite; }
+.strip__frame { position: relative; overflow: hidden; }
+.strip__frame img { object-fit: cover; }
+.strip__frame::after { content: ""; position: absolute; inset: auto 0 0; height: 55%; background: linear-gradient(transparent, rgba(7, 18, 42, .75)); }
+.strip__frame span { position: relative; z-index: 1; }
+@keyframes print-b { from { transform: translateY(-120%) rotate(-12deg); opacity: 0; } to { transform: rotate(-9deg); opacity: .6; } }
+@keyframes float-b { 0%, 100% { transform: rotate(-9deg); } 50% { transform: translateY(10px) rotate(-7deg); } }
+@media (max-width: 860px) { .strips { margin-top: 1rem; } }
+
+/* section labels, gold hairline between sections, recommended badge, hover shine on cards */
+.eyebrow { display: flex; align-items: center; gap: .8rem; margin-bottom: .7rem; font-size: .78rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); }
+.eyebrow::before { content: ""; width: 32px; height: 1px; background: var(--gold); }
+@media (max-width: 760px) { .eyebrow { justify-content: center; } .eyebrow::after { content: ""; width: 32px; height: 1px; background: var(--gold); } }
+.section::after { content: ""; position: absolute; top: 0; left: 8%; right: 8%; height: 1px; pointer-events: none; background: linear-gradient(90deg, transparent, rgba(235, 194, 131, .55), transparent); }
+.card__badge { align-self: flex-start; padding: .25rem .8rem; border-radius: 99px; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: var(--gold-btn); color: var(--navy-deep); }
+@media (max-width: 760px) { .card__badge { align-self: center; } }
+.grid > article:not(.card), .steps li { position: relative; overflow: hidden; }
+.grid > article:not(.card)::after, .steps li::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(110deg, transparent 35%, rgba(235, 194, 131, .16) 50%, transparent 65%); translate: -120% 0; transition: translate .8s; }
+.grid > article:not(.card):hover::after, .steps li:hover::after { translate: 120% 0; }
